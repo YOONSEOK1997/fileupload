@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>게시글 상세보기</title>
+</head>
+<body>
+	<h1>게시글 상세보기</h1>
+	
+	<!-- 게시글 정보 출력 -->
+	<div>
+		번호: {{boardMapping.bno}}<br>
+		제목: {{boardMapping.title}}
+	</div>
+	
+	<!-- 게시글 수정 / 삭제 -->
+	<div>
+		<a href="/modifyBoard?bno={{boardMapping.bno}}">수정</a>
+		<a href="/removeBoard?bno={{boardMapping.bno}}">삭제</a>
+	</div>
+
+	<!-- 첨부파일 목록 및 개별 파일 삭제 -->
+	<div>
+		<h3>첨부파일</h3>
+		{{#fileList}}
+			<div>
+				<a href="/{{fname}}.{{fext}}" download="{{foriginname}}">{{foriginname}}</a>
+				<a href="/removeBoardFile?fno={{fno}}&bno={{bno}}">[파일삭제]</a>
+			</div>
+		{{/fileList}}
+		{{^fileList}}
+			<p>첨부된 파일이 없습니다.</p>
+		{{/fileList}}
+	</div>
+</body>
+</html>

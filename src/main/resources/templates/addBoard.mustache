@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>addBoard</h1>
+	<form method = "post" action = "/addBoard" enctype="multipart/form-data">
+		<div>
+		<input type="text" name="title" placeholder="제목을 입력하세요 ">
+		</div>
+		<div>
+		<input type="password" name="pw" placeholder="비밀번호를 입력하세요">
+		</div>
+		<div>
+		<input type="file" name="fileList" multiple>
+			<button type="submit">저장</button>
+		</div>
+	</form>
+</body>
+</html>

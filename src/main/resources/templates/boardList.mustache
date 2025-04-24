@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>boardList</h1>
+	<table border="1">
+		<tr>
+			<th>bno</th>
+			<th>title</th>
+		</tr>
+		{{#list}}
+			<tr>
+				<td>{{bno}}</td>
+				<td>
+					<a href="/boardOne?bno={{bno}}">
+						{{title}}
+					</a>
+				</td>
+			</tr>
+		{{/list}}
+	</table>
+	<a href="addBoard">등록</a>
+</body>
+</html>
