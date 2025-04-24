@@ -127,7 +127,6 @@ public class BoardController {
 	    model.addAttribute("board", board);
 	    return "modifyBoard"; // modifyBoard.jsp or .html
 	}
-	// 게시글 수정 처리 (POST)
 		@PostMapping("/modifyBoard")
 		public String modifyBoard(@ModelAttribute BoardForm boardForm, RedirectAttributes redirect) {
 		    Board board = boardRepository.findById(boardForm.getBno()).orElse(null);
@@ -139,7 +138,7 @@ public class BoardController {
 		    // 게시글 내용 수정
 		    board.setTitle(boardForm.getTitle());
 		    board.setPw(boardForm.getPw());
-		    boardRepository.save(board); // 수정 반영
+		    boardRepository.save(board);
 
 		    return "redirect:/boardOne?bno=" + board.getBno();
 		}
