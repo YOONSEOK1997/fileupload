@@ -61,7 +61,7 @@ public class BoardController {
 	}	
 	// 입력액션
 	@PostMapping("/addBoard")
-	public String addBaord(BoardForm boardForm) {
+	public String addBoard(BoardForm boardForm) {
 		log.debug(boardForm.toString());
 		// 이슈: 파일을 첨부하지 않아도 fileSize는 1 이다
 		log.debug("MultipartFile Size: " + boardForm.getFileList().size());
@@ -157,28 +157,36 @@ public class BoardController {
 	}
 	@PostMapping("/removeBoard")
 	@Transactional
-	public String removeBoardPost(@ModelAttribute BoardForm boardForm ,@RequestParam int bno , @RequestParam String pw 
-			,RedirectAttributes redirect) {
-		// 첨부파일 목록 조회
-		List<Boardfile> fileList = boardfileRepository.findByBno(bno);
-		Board board = boardRepository.findById(bno).orElse(null);
-		if(!board.getPw().equals(boardForm.getPw())) {
-			redirect.addFlashAttribute("msg", "비밀번호가 틀렸습니다.");
-			return "redirect:/removeBoard?bno=" + bno;
-		}
-		else {
-			for (Boardfile f : fileList) {
-				File file = new File("c:/project/upload/" + f.getFname() + "." + f.getFext());
-				if (file.exists()) file.delete(); // 실제 파일 삭제
-			}
+	public String removeBoardPost(@ModelAttribute BoardForm boardForm,
+	                              @RequestParam int bno,
+	                              @RequestParam String pw,
+	                              RedirectAttributes redirect) {
 
-	
-			// 게시글 삭제
-			boardRepository.deleteById(bno);
-		}
-		return "redirect:/";
+	    Board board = boardRepository.findById(bno).orElse(null);
+	    if (board == null) {
+	        redirect.addFlashAttribute("msg", "존재하지 않는 게시글입니다.");
+	        return "redirect:/";
+	    }
 
+	    // 비밀번호 확인
+	    if (!board.getPw().equals(boardForm.getPw())) {
+	        redirect.addFlashAttribute("msg", "비밀번호가 틀렸습니다.");
+	        return "redirect:/removeBoard?bno=" + bno;
+	    }
+
+	    // 첨부파일 존재 여부 확인
+	    List<Boardfile> fileList = boardfileRepository.findByBno(bno);
+	    if (!fileList.isEmpty()) {
+	        redirect.addFlashAttribute("msg", "첨부된 파일이 있어 게시글을 삭제할 수 없습니다. 먼저 파일을 삭제해주세요.");
+	        return "redirect:/boardOne?bno=" + bno;
+	    }
+
+	    // 게시글 삭제
+	    boardRepository.deleteById(bno);
+
+	    return "redirect:/";
 	}
+
 
 	@GetMapping("/removeBoardFile")
 	public String removeBoardFile(Model model, @RequestParam int bno , @RequestParam int fno) {
