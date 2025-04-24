@@ -6,12 +6,13 @@
 </head>
 <body>
 {{#msg}}
-	<div>
-	{{msg}}
+	<div style="color:red;">
+		{{msg}}
 	</div>
 {{/msg}}
-<form action="/removeBoard" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');">
-	<input type="hidden" name="bno" value="{{board.bno}}">
+<form action="/removeBoardFile" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+<input type="hidden" name="bno" value="{{board.bno}}">
+	<input type="hidden" name="fno" value="{{boardFile.fno}}">
 	<input type="password" name="pw" placeholder="비밀번호를 입력하세요"> 
 	<button type="submit">삭제</button>
 </form>
